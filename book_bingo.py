@@ -22,7 +22,7 @@ def load_books():
 
 
 books = load_books()
-
+print(f"Loaded {len(books)} books.")
 
 #Function Definitions
 def display_books(books, called_books):
@@ -215,7 +215,7 @@ while True:
     else:
         call_book(book_to_call, books, called_books)
     game_stats = get_game_stats(books, called_books)
-
+    
     print()
     display_bingo_card(bingo_card, called_books)
     if test_mode and check_for_bingo(bingo_card, called_books) and not bingo_announced:
@@ -226,4 +226,4 @@ while True:
        f"Remaining: {game_stats['remaining_books']} | "
        f"Total: {game_stats['total_books']}"
     )
-    print(f"Loaded {len(books)} books.")
+    
