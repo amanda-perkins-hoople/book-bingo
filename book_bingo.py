@@ -1,5 +1,8 @@
 # Imports
 import random
+import csv
+import textwrap
+from pathlib import Path
 
 # Data
 
@@ -100,18 +103,55 @@ def create_bingo_card(books):
 
     return card
 
+
 def display_bingo_card(card, called_books):
+    column_width = 24
+    border = "+" + "+".join(
+        ["-" * column_width] * 5
+    ) + "+"
+
     print("\nYour Bingo Card:")
+    print(border)
 
     for row in card:
-        displayed_row = []
+        wrapped_row = []
 
         for book in row:
             if book == "FREE" or book in called_books:
-                displayed_row.append(f"[X] {book}")
+                displayed_book = f"[X] {book}"
             else:
-                displayed_row.append(f"[ ] {book}")
-        print(" | ".join(displayed_row))
+                displayed_book = f"[ ] {book}"
+
+            # Wrap long titles to fit within the cell
+            wrapped_book = textwrap.wrap(
+                displayed_book,
+                width=column_width - 2
+            )
+
+            wrapped_row.append(wrapped_book)
+
+        # Find how many lines the tallest cell needs
+        row_height = max(len(cell) for cell in wrapped_row)
+
+        # Print each line of the row
+        for line_number in range(row_height):
+            displayed_row = []
+
+            for cell in wrapped_row:
+                if line_number < len(cell):
+                    line = cell[line_number]
+                else:
+                    line = ""
+
+                displayed_row.append(
+                    line.center(column_width)
+                )
+
+            print("|" + "|".join(displayed_row) + "|")
+
+        print(border)
+
+
 
 def remaining_books_message(books, called_books):
     total_remaining = len(books) - len(called_books)
