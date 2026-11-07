@@ -3,92 +3,25 @@ import random
 
 # Data
 
-books = [
-    # Fantasy
-    "Fourth Wing",
-    "Iron Flame",
-    "Onyx Storm",
-    "The Hobbit",
-    "The Fellowship of the Ring",
-    "The Two Towers",
-    "The Return of the King",
-    "A Game of Thrones",
-    "A Court of Thorns and Roses",
-    "A Court of Mist and Fury",
-    "Throne of Glass",
-    "The Name of the Wind",
-    "The Way of Kings",
-    "Mistborn",
-    "The Priory of the Orange Tree",
+import csv
+from pathlib import Path
 
-    # Science Fiction
-    "Project Hail Mary",
-    "The Martian",
-    "Dune",
-    "Dune Messiah",
-    "Ender's Game",
-    "Ready Player One",
-    "The Hunger Games",
-    "Catching Fire",
-    "Mockingjay",
-    "Dark Matter",
-    "Recursion",
-    "The Three-Body Problem",
-    "The Left Hand of Darkness",
-    "Neuromancer",
-    "Fahrenheit 451",
+def load_books():
+    books = []
+    file_path = Path(__file__).resolve().parent / "books.csv"
 
-    # Romance
-    "It Ends with Us",
-    "It Starts with Us",
-    "Beach Read",
-    "People We Meet on Vacation",
-    "Book Lovers",
-    "Happy Place",
-    "The Love Hypothesis",
-    "Love on the Brain",
-    "The Hating Game",
-    "Red, White & Royal Blue",
-    "The Spanish Love Deception",
-    "The Kiss Quotient",
-    "The Notebook",
-    "Me Before You",
-    "The Seven Husbands of Evelyn Hugo",
+    with open(file_path, "r", encoding="utf-8-sig", newline="") as file:
+        reader = csv.DictReader(file)
 
-    # Mystery and Thriller
-    "The Silent Patient",
-    "The Housemaid",
-    "The Housemaid's Secret",
-    "The Guest List",
-    "The Hunting Party",
-    "Gone Girl",
-    "The Girl on the Train",
-    "The Da Vinci Code",
-    "Angels & Demons",
-    "The Thursday Murder Club",
-    "The Woman in the Window",
-    "The Maid",
-    "The Last Thing He Told Me",
-    "The Paris Apartment",
-    "Big Little Lies",
+        for row in reader:
+            title = row["title"].strip()
+            if title:
+                books.append(title)
 
-    # Classics and Contemporary Fiction
-    "Pride and Prejudice",
-    "Jane Eyre",
-    "Wuthering Heights",
-    "Little Women",
-    "To Kill a Mockingbird",
-    "1984",
-    "The Great Gatsby",
-    "The Catcher in the Rye",
-    "The Book Thief",
-    "The Nightingale",
-    "Where the Crawdads Sing",
-    "The Midnight Library",
-    "The Invisible Life of Addie LaRue",
-    "Lessons in Chemistry",
-    "Tomorrow, and Tomorrow, and Tomorrow"
-]
+    return books
+
+
+books = load_books()
 
 
 #Function Definitions
@@ -293,3 +226,4 @@ while True:
        f"Remaining: {game_stats['remaining_books']} | "
        f"Total: {game_stats['total_books']}"
     )
+    print(f"Loaded {len(books)} books.")
